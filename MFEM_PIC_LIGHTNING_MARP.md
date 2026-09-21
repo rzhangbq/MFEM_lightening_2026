@@ -119,10 +119,11 @@ Particles move through a field represented as an MFEM grid function.
 
 <!--
 - Example: particles moving in a Tokamak field
-- Particle class with $\mathbf x$, $\mathbf p$, $m$, and $q$
+- Particle class carrying x, p, m, and q
 - Localization of particles in the mesh
 - Interpolation: find the finite element a particle is in and evaluate the field there
-- Boris push for $\mathbf x$ and $\mathbf p$
+- (Specifically, find the element that a particle is in and evaluate the field at that point.)
+- Boris push for x and p
 - Redistribution when particles cross MPI subdomains
 - Pause for the animation
 - The field is given; particles follow it but do not change it
@@ -182,7 +183,7 @@ $$\rho(\mathbf x)=e\int f(\mathbf x,\mathbf v)\,d\mathbf v=e\sum_{p=1}^{N_p}\del
 - Represent it with macro-particles, not a phase-space grid
 - Unit weight: no separate particle-weight factor
 - Integrate over velocity: each particle is a point charge
-- The sum of those charges is $\rho$ for Poisson
+- The sum of those charges is the charge density for Poisson
 -->
 
 ---
@@ -205,7 +206,7 @@ $$\epsilon_0\langle\nabla\varphi,\nabla\phi\rangle
 
 <!--
 - Charge is the source for the electrostatic potential
-- Weak form: a point charge contributes $\varphi(\mathbf x_p)$
+- Weak form: a point charge contributes the test-function value at the particle
 - Background term balances the reference charge
 - Periodic Poisson has a constant nullspace
 - OrthoSolver removes that mode and selects a potential representative
@@ -233,10 +234,10 @@ $$\langle\mathbf v,\mathbf E+\nabla\phi\rangle=0.$$
 
 <!--
 - Electric field is the negative gradient of the potential
-- Weak equation at the top: that relationship in $H(\mathrm{curl})$
-- Compatible spaces: $\nabla$ maps $H^1$ into $H(\mathrm{curl})$
-- MFEM preserves this between CG and Nédélec
-- Compatible gradient $\Rightarrow$ discrete total energy conservation
+- Weak equation at the top: that relationship in H(curl)
+- Compatible spaces: the gradient maps H1 into H(curl)
+- MFEM preserves this between CG and Nedelec
+- Compatible gradient implies discrete total energy conservation
 - This is the mesh field evaluated at particles
 -->
 
@@ -264,10 +265,10 @@ $$
 
 <!--
 - Six operations in one time step
-- Deposit charge: evaluate $H^1$ test functions at particles
+- Deposit charge: evaluate H1 test functions at particles
 - Solve periodic Poisson with OrthoSolver
-- Compute $\mathbf E=-\nabla\phi$
-- Gather $\mathbf E$ at each particle
+- Compute E as minus grad phi
+- Gather E at each particle
 - Leapfrog: momentum by the electric force, then position with the new half-step momentum
 - Electrostatic push here; tracing used Boris for a prescribed field
 - Redistribute particles that cross MPI subdomain boundaries
@@ -298,7 +299,7 @@ Field energy decays at a rate close to the reference rate.
 - Initial perturbation creates an electric field
 - Field-energy oscillations decay over time
 - Dashed line: reference damping envelope; simulation follows it
-- 256 MPI ranks, 20,000 particles per rank, $64\times 64$, 400 steps, $\Delta t=0.05$
+- 256 MPI ranks, 20,000 particles per rank, 64 by 64, 400 steps, dt = 0.05
 - Deposition, Poisson, gathering, and motion together reproduce the expected damping
 -->
 
@@ -350,7 +351,7 @@ Both use 8–128 MPI ranks and a 64 × 64 grid. Tested on NERSC.</span>
 - Right: strong scaling, 2,621,440 particles fixed
 - Speedup about 6.4 at 128 ranks; efficiency around 0.4
 - Field solve and particle redistribution both add cost as ranks increase
-- Both studies: $64\times 64$ mesh, 400 steps, $\Delta t=0.05$
+- Both studies: 64 by 64 mesh, 400 steps, dt = 0.05
 -->
 
 ---
