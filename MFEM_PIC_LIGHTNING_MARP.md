@@ -382,7 +382,7 @@ Both use 8–128 MPI ranks and a 64 × 64 grid. Tested on NERSC.</span>
 - Validated with linear Landau damping
 
 ## On-going work
-- Improving **scalability** on on CPU and **GPU** (See Eddy Luo and Elliot Day's poster presentation)
+- Improving **scalability** on CPU and **GPU** (See Eddy Luo and Elliot Day's poster presentation)
 - Implementing a **shape function** beyond Dirac delta (See Rushan Zhang's poster presentation)
 
 <!--
