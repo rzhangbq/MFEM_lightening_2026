@@ -24,7 +24,17 @@ style: |
   .columns.wide-left { grid-template-columns: 1.15fr .85fr; }
   .columns.wide-right { grid-template-columns: .82fr 1.18fr; }
   .columns img { width: 100%; height: auto; object-fit: contain; }
-  .tokamak-video { display: block; width: 100%; height: 500px; max-height: 100%; object-fit: contain; }
+  .tokamak-media { display: flex; flex-direction: column; gap: 0; }
+  .tokamak-media img { width: 100%; max-height: 100px; height: auto; object-fit: contain; }
+  .tokamak-media p { margin: 0; padding: 0; line-height: 0; }
+  .tokamak-credit { display: block; font-size: 11px; line-height: 1.25; color: #667085; margin: 0; padding: 0; }
+  .traj-figure { display: flex; flex-direction: column; gap: 0; }
+  .traj-figure p { margin: 0; padding: 0; line-height: 0; }
+  .traj-figure img { width: 85%; height: auto; object-fit: contain; }
+  .tokamak-pair { display: grid; grid-template-columns: 1.15fr 0.85fr; grid-template-rows: auto auto; gap: 4px 34px; align-items: stretch; }
+  .traj-figure { align-self: center; }
+  .tokamak-pair .tokamak-credit { align-self: start; }
+  .tokamak-video { display: block; width: 100%; height: auto; max-height: 500px; aspect-ratio: 1 / 1; object-fit: contain; object-position: bottom; }
   .qa-video { display: block; width: 100%; height: 440px; object-fit: contain; filter: invert(1); mix-blend-mode: screen; }
   .image-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; align-items: center; }
   .image-pair img { width: 100%; }
@@ -32,6 +42,7 @@ style: |
   .columns img,
   .image-pair img,
   .credit-image img,
+  .traj-figure img,
   .tokamak-video { mix-blend-mode: multiply; }
   blockquote { border-left: 7px solid #ee9b00; background: #fff7e8; color: #293241; padding: 0.35em 0.8em; }
   .equation-box { background: #eef6fa; border: 2px solid #b8dbe5; border-radius: 14px; padding: 10px 20px; margin: 12px 0; }
@@ -111,11 +122,21 @@ Particles move through a field represented as an MFEM grid function.
 > - **Boris** push for particle $\mathbf x$ and $\mathbf p$ updates
 > - **Redistribution** of particles that cross subdomain boundaries
 
-</div><div>
+</div><div class="tokamak-media"><video class="tokamak-video" src="figs/tokamak_demo_loop.mp4" autoplay loop muted playsinline></video><span class="tokamak-credit">Tokamak magnetic field generated from: R. Zhang, G. Wimmer, Q. Tang. Structure-preserving transfer of Grad–Shafranov equilibria to magnetohydrodynamic solvers, Journal of Computational Physics, 568:115369, 2027.</span></div></div>
 
-<video class="tokamak-video" src="figs/tokamak_demo_loop.mp4" autoplay loop muted playsinline></video>
+---
 
-</div></div>
+## Particle tracing in MFEM
+<div class="tokamak-pair">
+<div class="traj-figure">
+
+![Passing and trapped particle trajectories in a tokamak](figs/tokamak_particle_trajectory.png)
+
+</div>
+<div class="tokamak-media"><video class="tokamak-video" src="figs/tokamak_demo_loop.mp4" autoplay loop muted playsinline></video></div>
+<span class="tokamak-credit">X. Garbet, Y. Idomura, L. Villard, T. H. Watanabe. Gyrokinetic simulations of turbulent transport, Nuclear Fusion, 50:043002, 2010.</span>
+<span class="tokamak-credit">Tokamak magnetic field generated from: R. Zhang, G. Wimmer, Q. Tang. Structure-preserving transfer of Grad–Shafranov equilibria to magnetohydrodynamic solvers, Journal of Computational Physics, 568:115369, 2027.</span>
+</div>
 
 <!--
 - Example: particles moving in a Tokamak field
@@ -361,7 +382,8 @@ Both use 8–128 MPI ranks and a 64 × 64 grid. Tested on NERSC.</span>
 - Validated with linear Landau damping
 
 ## On-going work
-- **GPU support** for particle deposition, field gather, and particle push (See Eddy Luo and Elliot Day's poster presentation)
+- Improving **scalability** on on CPU and **GPU** (See Eddy Luo and Elliot Day's poster presentation)
+- Implementing a **shape function** beyond Dirac delta (See Rushan Zhang's poster presentation)
 
 <!--
 - Scalable electrostatic PIC in MFEM
